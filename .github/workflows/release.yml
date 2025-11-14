@@ -16,6 +16,8 @@ jobs:
       - name: PR Data
         id: pr
         uses: actions-ecosystem/action-get-merged-pull-request@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       # Calcula nova versão/tag
       - name: Bump version
