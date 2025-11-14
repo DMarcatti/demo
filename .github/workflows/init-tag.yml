@@ -4,11 +4,16 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   init-tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check for tags
         id: check_tags
@@ -23,5 +28,3 @@ jobs:
           git config user.email "github-actions@github.com"
           git tag v0.1.0
           git push origin v0.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
