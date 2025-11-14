@@ -9,21 +9,19 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
-    permissions:   # garante que o GITHUB_TOKEN tenha permissões adequadas
+    permissions:
       contents: write
       pull-requests: read
 
     steps:
       - uses: actions/checkout@v4
 
-      # Obtém dados do PR mergeado
-      - name: PR Data
+      - name: Get PR Data
         id: pr
         uses: actions-ecosystem/action-get-merged-pull-request@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Calcula nova versão/tag
       - name: Bump version
         id: version
         uses: mathieudutour/github-tag-action@v6.2
@@ -32,14 +30,24 @@ jobs:
           default_bump: minor
           tag_prefix: "v"
 
-      # Gera changelog
       - name: Generate Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v3
         with:
           configuration: ".github/changelog-config.json"
 
-      # Cria a release
+      - name: Update README
+        run: |
+          echo "## Última versão: ${{ steps.version.outputs.new_tag }}" > README.md
+          echo "Deploy: ⏳ Em progresso..." >> README.md
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Atualiza README com release ${{ steps.version.outputs.new_tag }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -54,8 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🔥 Dispara workflow de deploy
-      - name: Trigger ECS Deploy
+      - name: Trigger Deploy
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
