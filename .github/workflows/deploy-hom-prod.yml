@@ -33,7 +33,7 @@ jobs:
         run: echo "Aguardando aprovação manual e número da CHG..."
 
       - name: Clonar scripts
-        run: git clone https://github.com/DMarcatti/infra-deploy-scripts.git
+        run: git clone https://DMarcatti:${{ secrets.INFRA_REPO_TOKEN }}@github.com/DMarcatti/infra-deploy-scripts.git
 
       - name: Carregar variáveis PROD
         run: source infra-deploy-scripts/environments/prod.env
