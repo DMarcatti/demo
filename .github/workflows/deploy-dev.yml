@@ -16,7 +16,6 @@ jobs:
       - name: Clonar scripts
         run: git clone https://x-access-token:${{ secrets.INFRA_REPO_TOKEN }}@github.com/DMarcatti/infra-deploy-scripts.git
 
-
       - name: Carregar variáveis DEV
         run: source infra-deploy-scripts/environments/dev.env
 
