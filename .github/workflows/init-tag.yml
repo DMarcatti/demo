@@ -1,0 +1,29 @@
+name: Initialize Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  init-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for existing tags
+        id: check_tags
+        run: |
+          TAG_COUNT=$(git tag | wc -l)
+          echo "tag_count=$TAG_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Create initial tag if none exists
+        if: steps.check_tags.outputs.tag_count == '0'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag v0.1.0
+          git push origin v0.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
