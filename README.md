@@ -1,2 +1,2 @@
-## Última versão: v0.1.8
+## Última versão: v0.1.9
 Deploy: ⏳ Em progresso...
