@@ -63,9 +63,10 @@ jobs:
           git add README.md
           git commit -m "Atualiza README com CHG CHG123456"
           
-          git pull --rebase
+          git pull --no-rebase
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
