@@ -62,6 +62,9 @@ jobs:
           
           git add README.md
           git commit -m "Atualiza README com CHG CHG123456" || echo "Nada para commitar"
+          
+          git fetch origin
+          git rebase origin/main || git merge origin/main
           git push --force-with-lease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
