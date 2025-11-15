@@ -61,10 +61,8 @@ jobs:
           git config user.email "github-actions@github.com"
           
           git add README.md
-          git commit -m "Atualiza README com CHG CHG123456"
-          
-          git pull --no-rebase
-          git push
+          git commit -m "Atualiza README com CHG CHG123456" || echo "Nada para commitar"
+          git push --force-with-lease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
