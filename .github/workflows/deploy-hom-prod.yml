@@ -58,6 +58,10 @@ jobs:
           echo "- Data: $(date +'%Y-%m-%d %H:%M')" >> README.md
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git pull --rebase
           git add README.md
           git commit -m "Atualiza README com CHG CHG123456"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
